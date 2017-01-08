@@ -8,21 +8,27 @@
   become: true
   template:
     src: stunnel.conf.j2
-    dest: /etc/stunnel/stunnel.conf
+    dest: '{{ stunnel.conf }}'
   notify:
     - reload stunnel
+- name: squid minimum configuration
+  replace:
+    dest: '{{ squid.conf }}'
+    regexp: '#acl (localnet|SSL_ports|Safe_ports)'
+    replace: 'acl \1'
+    backup: yes
 - name: squid include acl config
   become: true
   lineinfile:
-    dest: /etc/squid3/squid.conf
-    insertbefore: "#  Configuration options can be included using the \"include\" directive."
-    line: include squid.acl.config
+    dest: '{{ squid.conf }}'
+    insertbefore: '#  TAG: acl'
+    line: include {{ squid.acl_conf }}
   notify:
     - reload squid
 - name: squid acl config
   become: true
   template:
     src: squid.acl.config.j2
-    dest: /etc/squid3/squid.acl.config
+    dest: '{{ squid.acl_conf }}'
   notify:
     - reload squid

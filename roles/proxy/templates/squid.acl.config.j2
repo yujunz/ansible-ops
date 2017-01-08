@@ -1,5 +1,7 @@
 # {{ ansible_managed }}
 
-{% for item in squid.Safe_ports %}
+{% for item in squid.acl %}
 acl Safe_ports port {{ item.port }} # {{ item.comment }}
 {% endfor %}
+
+acl SSL_ports port{% for item in squid.acl %} {{ item.port }}{% endfor %}

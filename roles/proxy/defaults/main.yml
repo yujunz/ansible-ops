@@ -1,10 +1,12 @@
 stunnel:
+  conf: /etc/stunnel/stunnel.conf
   port: 443
   debug: 7
   verify: 4
 squid:
-  Safe_ports:
+  conf: /etc/squid3/squid.conf
+  acl_conf: /etc/squid3/squid.acl.config
+  acl:
     - { port: 22, comment: ssh }
-    - { port: 6667, comment: IRC }
     - { port: 6697, comment: IRC Secure }
     - { port: 29418, comment: gerrit }
