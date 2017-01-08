@@ -1,0 +1,36 @@
+- name: add group user
+  become: true
+  group: name=user state=present
+- name: add user to sudoers without password
+  become: true
+  template:
+    src: sudoers.d-user
+    dest: /etc/sudoers.d/50-user
+    mode: 0440
+  with_items: "{{ users }}"
+- name: add users for ssh access
+  become: true
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    groups: "user"
+    append: yes
+  with_items: "{{ users }}"
+- name: create .ssh directory
+  become: true
+  file:
+    path: "/home/{{ item.name }}/.ssh"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: 0700
+  with_items: "{{ users }}"
+- name: authorize public key
+  become: true
+  copy:
+    src: "{{ item.name }}.authorized_keys"
+    dest: "/home/{{ item.name }}/.ssh/authorized_keys"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: 0600
+  with_items: "{{ users }}"

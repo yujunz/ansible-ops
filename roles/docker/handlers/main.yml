@@ -1,0 +1,4 @@
+---
+- name: starting docker service
+  become: true
+  service: name=docker state=started

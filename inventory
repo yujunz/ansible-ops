@@ -1,0 +1,2 @@
+harbor	ansible_host=harbor.rogerz.me   ansible_user=root	# hostkvm
+
