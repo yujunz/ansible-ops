@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+chroot = /var/lib/stunnel4/
+setuid = stunnel4
+setgid = stunnel4
+pid = /stunnel4.pid
+debug = {{ stunnel.debug }}
+output = stunnel.log
+
+cert = /etc/stunnel/server.pem
+verify = {{ stunnel.verify }}
+CAfile = /etc/stunnel/client.pem
+
+socket = r:TCP_NODELAY=1
+socket = l:TCP_NODELAY=1
+
+[squid]
+accept = {{ stunnel.port }}
+connect = 127.0.0.1:3128

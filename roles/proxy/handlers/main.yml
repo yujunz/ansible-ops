@@ -1,0 +1,6 @@
+- name: reload squid
+  become: true
+  service: name=squid3 state=reloaded enabled=yes
+- name: reload stunnel
+  become: true
+  service: name=stunnel4 state=reloaded enabled=yes

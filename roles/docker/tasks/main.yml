@@ -17,10 +17,6 @@
   apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-trusty main' state=present filename='docker'
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "14.04"
 
-- name: updating
-  become: true
-  apt: update_cache=yes
-
 - name: installing docker engine
   become: true
   apt: name=docker-engine

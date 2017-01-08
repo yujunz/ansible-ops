@@ -1,0 +1,28 @@
+- name: install packages
+  become: true
+  apt: name={{item}} state=installed
+  with_items:
+    - squid
+    - stunnel
+- name: stunnel configuration
+  become: true
+  template:
+    src: stunnel.conf.j2
+    dest: /etc/stunnel/stunnel.conf
+  notify:
+    - reload stunnel
+- name: squid include acl config
+  become: true
+  lineinfile:
+    dest: /etc/squid3/squid.conf
+    insertbefore: "#  Configuration options can be included using the \"include\" directive."
+    line: include squid.acl.config
+  notify:
+    - reload squid
+- name: squid acl config
+  become: true
+  template:
+    src: squid.acl.config.j2
+    dest: /etc/squid3/squid.acl.config
+  notify:
+    - reload squid

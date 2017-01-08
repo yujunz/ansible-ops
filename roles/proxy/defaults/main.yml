@@ -1,0 +1,10 @@
+stunnel:
+  port: 443
+  debug: 7
+  verify: 4
+squid:
+  Safe_ports:
+    - { port: 22, comment: ssh }
+    - { port: 6667, comment: IRC }
+    - { port: 6697, comment: IRC Secure }
+    - { port: 29418, comment: gerrit }
